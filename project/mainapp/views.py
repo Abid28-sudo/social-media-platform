@@ -1,10 +1,34 @@
+from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from django.shortcuts import get_object_or_404, render,redirect
 from django.contrib.auth.decorators import login_required
-from .forms import PostForm , CommentForm
-from .models import Post , Like , Follow
+from django.shortcuts import get_object_or_404, render, redirect
+from .forms import CommentForm, PostForm, Register
+from .models import Follow, Like, Post
 
-# Create your views here.
+
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('feed')
+    return redirect('login')
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+
+def signup(request):
+    if request.method == 'POST':
+        form = Register(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('feed')
+    else:
+        form = Register()
+    return render(request, 'mainapp/signup.html', {'form': form})
+
+
 @login_required
 def create_post(request):
     if request.method == 'POST':

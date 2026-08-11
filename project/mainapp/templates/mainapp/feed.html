@@ -1,12 +1,15 @@
 {% extends 'mainapp/base.html' %}
 
 {% block content %}
-<h2>Feed</h2>
+<h1>Your feed</h1>
 <a class="button" href="{% url 'create_post' %}">+ New Post</a>
 {% for post in posts %}
 <div class="card">
-    <a class="button" href="{% url 'post_detail' post.id %}">View / Comment</a>
-    <strong>{{ post.user.username }}</strong>
+    <a class="button secondary" href="{% url 'post_detail' post.id %}">View / Comment</a>
+    <span class="avatar"><span>{{ post.user.username|first|upper }}</span></span>
+    <a href="{% url 'profile' post.user.username %}">
+        <strong>{{ post.user.username }}</strong>
+    </a>
     <p>{{ post.text }}</p>
     {% if post.image %}
     <img src="{{ post.image.url }}" alt="Post image">
@@ -14,6 +17,8 @@
     <p class="small-text">{{ post.created_at }}</p>
 </div>
 {% empty %}
-<p>No posts yet.</p>
+<div class="card">
+    <p>No posts yet. Be the first to share something.</p>
+</div>
 {% endfor %}
 {% endblock %}

@@ -1,26 +1,32 @@
 {% extends 'mainapp/base.html' %}
 
 {% block content %}
-<h1>{{ profile_user.username }}'s Profile</h1>
-<p>{{ followers_count }} followers, {{ following_count }} following</p>
+<div class="profile-head">
+    <span class="avatar"><span>{{ profile_user.username|first|upper }}</span></span>
+    <div>
+        <h1 style="margin:0;">{{ profile_user.username }}</h1>
+    </div>
+</div>
+<p class="profile-stats">{{ followers_count }} followers · {{ following_count }} following</p>
 {% if profile_user != request.user %}
-<a class="button" href="{% url 'toggle_follow' profile_user.username %}">
+<a class="button {% if is_following %}secondary{% endif %}" href="{% url 'toggle_follow' profile_user.username %}">
     {% if is_following %}Unfollow{% else %}Follow{% endif %}
 </a>
 {% endif %}
 
-<h3>Posts</h3>
+<h2 style="margin-top:2rem;">Posts</h2>
 {% for post in posts %}
 <div class="card">
+    <a class="button secondary" href="{% url 'post_detail' post.id %}">View / Comment</a>
     <p>{{ post.text }}</p>
     {% if post.image %}
     <img src="{{ post.image.url }}" alt="Post image">
     {% endif %}
-    <small class="small-text">{{ post.created_at }}</small>
-    <br>
-    <a class="button" href="{% url 'post_detail' post.id %}">View / Comment</a>
+    <p class="small-text">{{ post.created_at }}</p>
 </div>
 {% empty %}
-<p>No posts yet</p>
+<div class="card">
+    <p class="small-text">No posts yet.</p>
+</div>
 {% endfor %}
 {% endblock %}

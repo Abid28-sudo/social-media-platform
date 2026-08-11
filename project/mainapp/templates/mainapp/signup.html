@@ -1,0 +1,16 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<div class="card">
+    <h1>Sign up</h1>
+    <form method="post">
+        {% csrf_token %}
+        {% if form.non_field_errors %}
+        <div class="status">{{ form.non_field_errors }}</div>
+        {% endif %}
+        {{ form.as_p }}
+        <button type="submit">Sign Up</button>
+    </form>
+    <p class="status">Already have an account? <a href="{% url 'login' %}">Login</a></p>
+</div>
+{% endblock %}
