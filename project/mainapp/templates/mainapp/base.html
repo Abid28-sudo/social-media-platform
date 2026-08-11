@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Media</title>
+    <link rel="stylesheet" href="{% static 'mainapp/styles.css' %}">
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container">
+            <a class="brand" href="{% url 'feed' %}">Social Media</a>
+            <nav>
+                <a href="{% url 'feed' %}">Feed</a>
+                <a href="{% url 'create_post' %}">New Post</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <div class="container">
+            <p>Simple Django social app</p>
+        </div>
+    </footer>
+</body>
+
+</html>

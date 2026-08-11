@@ -1,0 +1,36 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<div class="card">
+    <p>{{ post.likes.count }} like(s)</p>
+    <a class="button" href="{% url 'toggle_like' post.id %}">
+        {% if user_has_liked %}Unlike{% else %}Like{% endif %}
+    </a>
+    <strong>{{ post.user.username }}</strong>
+    <p>{{ post.text }}</p>
+    {% if post.image %}
+    <img src="{{ post.image.url }}" alt="Post image">
+    {% endif %}
+    <p class="small-text">{{ post.created_at }}</p>
+</div>
+
+<h3>Comments</h3>
+{% for comment in post.comments.all %}
+<div class="card">
+    <strong>{{ comment.user.username }}</strong>
+    <small class="small-text">{{ comment.created_at }}</small>
+    <p>{{ comment.text }}</p>
+</div>
+{% empty %}
+<p>No comments yet.</p>
+{% endfor %}
+
+<div class="card">
+    <h4>Add a comment</h4>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Comment</button>
+    </form>
+</div>
+{% endblock %}

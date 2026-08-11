@@ -1,0 +1,26 @@
+{% extends 'mainapp/base.html' %}
+
+{% block content %}
+<h1>{{ profile_user.username }}'s Profile</h1>
+<p>{{ followers_count }} followers, {{ following_count }} following</p>
+{% if profile_user != request.user %}
+<a class="button" href="{% url 'toggle_follow' profile_user.username %}">
+    {% if is_following %}Unfollow{% else %}Follow{% endif %}
+</a>
+{% endif %}
+
+<h3>Posts</h3>
+{% for post in posts %}
+<div class="card">
+    <p>{{ post.text }}</p>
+    {% if post.image %}
+    <img src="{{ post.image.url }}" alt="Post image">
+    {% endif %}
+    <small class="small-text">{{ post.created_at }}</small>
+    <br>
+    <a class="button" href="{% url 'post_detail' post.id %}">View / Comment</a>
+</div>
+{% empty %}
+<p>No posts yet</p>
+{% endfor %}
+{% endblock %}
