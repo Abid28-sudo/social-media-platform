@@ -1,4 +1,4 @@
-# codeAlpha Social Media Platform
+# Social Media Platform
 
 A simple social media platform prototype built for learning and development.
 
